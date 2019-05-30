@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <title>Chat Example</title>
+    <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css" >
+    <style type="text/css">
+        *{
+            margin:0;
+            padding:0;
+        }
+        html,body{
+            height:100%;
+        }
+
+        .chat-main{
+            height: 100%;display: flex;
+        }
+
+        .chat-header{
+            box-shadow: 0px 10px 10px -12px #ccc;
+            height: 2.5em;
+        }
+        .chat-header .backicon,chat-title{
+            height: 100%;
+        }
+        .chat-body{
+            flex: 1;
+            overflow-y: auto;
+        }
+        .user-photo{
+            width: 2em;
+            height: 2em;
+        }
+        /*自己发送的样式*/
+        .chat-msg{
+            background-color: #222831;
+            border: 1px solid #9999;
+            /*width: 90%;*/
+            color: #eeeeee;
+            float: right;
+        }
+        /*好友发送的样式*/
+        .chat-msg-dest{
+            background-color: #eeeeee;
+            border: 1px solid #9999;
+            width: 90%;
+            color: #222831;
+        }
+        .chat-footer{
+            height: 4em;
+        }
+
+        /*icon*/
+         .icon {
+             width: 1em;
+             height: 1em;
+             /*vertical-align: -0.15em;*/
+             /*fill: currentColor;*/
+             /*overflow: hidden;*/
+         }
+
+        .icon-1-5{
+            width: 1.5em;
+            height: 1.5em;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+
+
+
+<div class="chat-main d-flex flex-column p-2">
+    <div class="chat-header d-flex flex-row bd-highlight align-items-center">
+        <div class="bd-highlight backicon">
+            <svg class="icon mr-1 mt-1 " aria-hidden="true">
+                <use xlink:href="#icon-zuoce"></use>
+            </svg>
+        </div>
+        <div class="flex-grow-1 d-flex bd-highlight justify-content-center chat-title">
+            <p class="">客服1000</p>
+        </div>
+    </div>
+    <div class="chat-body d-flex flex-column p-2" id="log">
+        <div class="msg-item d-flex flex-row" >
+            <img src="https://upyun.bao361.cn/image_upload_api/945886ff2cf76308e237186fb57ad9530.983230097368" class="user-photo rounded d-block mr-1">
+            <div >
+                <p class="chat-msg-dest rounded p-1">这是一条消息这是一条消息这是一条消息这是一条消息这是一条消息这是一条消息这是一条消息</p>
+            </div>
+        </div>
+        <div class="msg-item d-flex flex-row flex-row-reverse">
+            <img src="/static/images/online.png" class="user-photo rounded d-block ml-1">
+            <div >
+                <p class="chat-msg rounded p-1">这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一</p>
+            </div>
+        </div>
+    </div>
+    <div class="chat-footer ">
+        <div class="chat-input ">
+            <form class="d-flex flex-column">
+                <div class="d-flex flex-row align-items-center">
+                    <div class="flex-grow-1  justify-content-start align-items-center">
+                        <input type="text" placeholder="发消息..." class="form-control" id="msg">
+                    </div>
+                    <div class="p-2 d-flex" id="send-id">
+                        <svg class="icon mr-1 mt-1 icon-1-5" aria-hidden="true">
+                            <use xlink:href="#icon-fasong"></use>
+                        </svg>
+
+                    </div>
+                </div>
+                <div class="d-flex flex-row justify-content-between">
+                    <svg class="icon mr-1 mt-1 flex-fill icon-1-5" aria-hidden="true" >
+                        <use xlink:href="#icon-biaoqing"></use>
+                    </svg>
+                    <svg class="icon mr-1 mt-1 flex-fill icon-1-5" aria-hidden="true">
+                        <use xlink:href="#icon-yuyin"></use>
+                    </svg>
+                    <svg class="icon mr-1 mt-1 flex-fill icon-1-5" aria-hidden="true">
+                        <use xlink:href="#icon-jiahao"></use>
+                    </svg>
+                </div>
+
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/static/jquery/jquery.min.js"></script>
+<script src="/static/iconfont/iconfont.js"></script>
+<script src="/static/bootstrap/bootstrap.min.js" ></script>
+
+<script src="/static/js/utils.js"></script>
+<script src="/static/js/chat.js"></script>
+
+</body>
+</html>

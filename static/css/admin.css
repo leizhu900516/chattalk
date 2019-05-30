@@ -1,0 +1,142 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html,body{
+    height: 100%;
+    width: 100%;
+}
+
+/*icon*/
+
+.icon {
+    width: 2em;
+    height: 2em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+.icon-1-5 {
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+
+.chc-main{
+    height: 100%;
+}
+.chc-main .row{
+    height: 100%;
+}
+.chc-left{
+    background-color:#ff2e63 ;
+    height: 100%;
+}
+.login-user img{
+    width: 3em;
+    height: 3em;
+}
+.setting-items{
+    list-style: none;
+}
+.setting-items li{
+
+    color: #eaeaea;
+
+}
+.setting-items li a:link{
+    color: #eaeaea!important; ;
+}
+.setting-items li a .icon{
+    color: #eaeaea;
+}
+.setting-items li a .icon:hover{
+    color: #252a34;
+}
+
+.chc-right{
+    background-color: #FFF;
+    height: 100%;
+    overflow-y: auto;
+}
+.chc-right .container{
+    height: 100%;
+}
+.chc-users{
+
+    border-bottom: 1px solid #eaeaea;
+}
+
+.chc-users img{
+    width: 2em;
+    height: 2em;
+}
+.chc-chating-this{
+    background-color: #eaeaea;
+}
+.users-left{
+    border-right: 1px solid #eaeaea;
+    overflow-y: auto;
+    line-height: 3em;
+    padding: 0;
+}
+.users-left .chc-search{
+    height: 8%;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.user-chat-body{
+    padding: 0;
+}
+
+.user-chat-body .chc-title{
+    height: 8%;
+    border-bottom: 1px solid #eaeaea;
+}
+.user-chat-body .chc-body{
+    height: 72%;
+    overflow-y: auto;
+    /*overflow: hidden;*/
+    border-bottom: 1px solid #eaeaea;
+}
+.user-chat-body .chc-toos{
+    height: 20%;
+}
+.chc-chat-tools{
+    height: 30%;
+}
+.chc-chat-input{
+    height: 60%;
+}
+.chc-chat-input{
+    border: 0;
+    background-color: transparent;
+    height: auto;
+    resize: none;
+    outline: none;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3px;
+    outline: 0;
+    font-size: 12px;
+    line-height: 24px;
+    word-wrap: break-word;
+    overflow-y: auto;
+}
+.chc-input-input{
+    /*height: 100%;*/
+    width: 100%;
+    padding-left: 1em;
+}
+
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 91%;
+    z-index: 1030;
+    color: #fff;
+    text-align: center;
+}
