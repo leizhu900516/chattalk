@@ -40,7 +40,7 @@ func LoginHandle(w http.ResponseWriter, r *http.Request) {
 	var password = r.FormValue("password")
 
 	fmt.Println(username,password)
-	if username != "admin" && password !="Gc895316"{
+	if username != "admin" && password !="123456"{
 		log.Println("用户密码错误")
 		w.WriteHeader(http.StatusForbidden)
 		return
