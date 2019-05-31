@@ -21,7 +21,7 @@ function  generateFriendListHtml(userid,unreadMsgCount,username) {
     return ` <div class="chc-users d-flex flex-row align-items-center" data-cid="`+userid+`" onclick="chatClick(this)">
                                 <img src="/static/images/touxiang.jpeg" class="mr-1">
                                 <div class="mr-1 flex-grow-1">
-                                    <span class="h-100">`+username+`</span>
+                                    <span class="h-10">`+username+`</span>
                                     <span class="badge badge-danger">`+unreadMsgCount+`</span>
                                 </div>
                             </div>`
