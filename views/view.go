@@ -3,10 +3,9 @@ package views
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/dgrijalva/jwt-go/request"
+	"github.com/dgrijalva/jwt-go"
 	"log"
 	"net/http"
-	"github.com/dgrijalva/jwt-go"
 	"time"
 )
 const (
@@ -19,6 +18,7 @@ type UserCredentials struct {
 }
 type Token struct {
 	Token string `json:"token"`
+	Code int `json:"code"`
 }
 
 func ChatHome( w http.ResponseWriter, r *http.Request){
@@ -51,21 +51,32 @@ func LoginHandle(w http.ResponseWriter, r *http.Request) {
 	claims["iat"] = time.Now().Unix()
 	token.Claims = claims
 	tokenString,err := token.SignedString([]byte(SecretKey))
-	if err!= nil{}
-	w.WriteHeader(http.StatusInternalServerError)
-	log.Println("500")
+	if err!= nil{
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("500")
+	}
 
-	response := Token{tokenString}
+
+	response := Token{Token:tokenString,Code:0}
 	JsonResponse(response, w)
 }
 
 func ValidateTokenMiddleware(next  http.HandlerFunc) http.Handler{
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		token, err := request.ParseFromRequest(r, request.AuthorizationHeaderExtractor,
-			func(token *jwt.Token) (interface{}, error) {
-				return []byte(SecretKey), nil
-			})
+		//token, err := request.ParseFromRequest(r, request.AuthorizationHeaderExtractor,
+		//	func(token *jwt.Token) (interface{}, error) {
+		//		return []byte(SecretKey), nil
+		//	})
 
+		tokenString ,err:= r.Cookie("token")
+
+		if err!=nil{
+			w.WriteHeader(http.StatusUnauthorized)
+			http.Redirect(w,r,"/",http.StatusMovedPermanently)
+		}
+		token,err:=jwt.Parse(tokenString.Value,func(token *jwt.Token)(interface{},error){
+			return []byte(SecretKey),nil
+		})
 		if err == nil {
 
 			if token.Valid {

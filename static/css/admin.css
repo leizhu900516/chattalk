@@ -6,15 +6,20 @@ html,body{
     height: 100%;
     width: 100%;
 }
+cite{
+    font-style: normal;
+    color: #FFF!important;
+}
 
 /*icon*/
 
 .icon {
-    width: 2em;
-    height: 2em;
+    width: 1.2em;
+    height: 1.2em;
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
+    color: #fff!important;
 }
 .icon-1-5 {
     width: 1.5em;
@@ -41,9 +46,16 @@ html,body{
 .setting-items{
     list-style: none;
 }
-.setting-items li{
+.setting-items svg{
+    margin-right: 12px;
+}
+.setting-items a{
+    text-decoration: none;
+}
+.setting-items li:hover{
 
-    color: #eaeaea;
+    background-color: #eaeaea;
+    color: #ff2e63!important;
 
 }
 .setting-items li a:link{
@@ -135,7 +147,7 @@ html,body{
     position: fixed;
     bottom: 0;
     left: 0;
-    right: 91%;
+    right: 83%;
     z-index: 1030;
     color: #fff;
     text-align: center;
