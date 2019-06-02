@@ -152,3 +152,6 @@ cite{
     color: #fff;
     text-align: center;
 }
+#exit-id{
+    cursor: pointer;
+}

@@ -10,4 +10,3 @@ IM,客服IM
 ![动图](/static/images/Untitled.gif)
 #### 待加功能
 - 客服管理(增删)
-- 认证（登陆，jwt）

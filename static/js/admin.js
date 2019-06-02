@@ -155,3 +155,8 @@ function updateAllMsgData(uid,msg,who,addtime=null) {
 
     allMsgObj[uid]['message'].push({"msg":msg,"obj":who,"date":datetime},);
 }
+
+$("#exit-id").on("click",function () {
+    delCookie("token");
+    window.location.href="/";
+});

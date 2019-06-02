@@ -56,13 +56,12 @@ func main(){
 	http.HandleFunc("/login",views.LoginHandle)
 	//http.HandleFunc("/chat",views.ChatHome)
 	http.Handle("/chat",views.ValidateTokenMiddleware(http.HandlerFunc(views.ChatHome)))
-	//http.HandleFunc("/admin",views.AdminHome)
 	http.Handle("/admin",views.ValidateTokenMiddleware(http.HandlerFunc(views.AdminHome)))
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		hub.ServerWsSwitch(hubs,w,r)
 	})
-	fmt.Println("start server 0.0.0.0:9090")
-	err :=http.ListenAndServe("0.0.0.0:9090",nil);if err !=nil{
+	fmt.Println("start server 0.0.0.0:12345")
+	err :=http.ListenAndServe("0.0.0.0:12345",nil);if err !=nil{
 		log.Fatal("start error")
 	}
 }

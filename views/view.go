@@ -69,25 +69,29 @@ func ValidateTokenMiddleware(next  http.HandlerFunc) http.Handler{
 		//	})
 
 		tokenString ,err:= r.Cookie("token")
-
+		fmt.Println("cookie=",tokenString)
 		if err!=nil{
-			w.WriteHeader(http.StatusUnauthorized)
-			http.Redirect(w,r,"/",http.StatusMovedPermanently)
+			http.Redirect(w,r, "/", http.StatusFound)
+			return
 		}
+
 		token,err:=jwt.Parse(tokenString.Value,func(token *jwt.Token)(interface{},error){
 			return []byte(SecretKey),nil
 		})
 		if err == nil {
-
+			fmt.Println("222")
 			if token.Valid {
 				next(w, r)
 			} else {
-				w.WriteHeader(http.StatusUnauthorized)
+				//w.WriteHeader(http.StatusUnauthorized)
+				http.Redirect(w,r, "/", http.StatusFound)
 				fmt.Fprint(w, "Token is not valid")
 			}
 		} else {
+			fmt.Println("333")
 			log.Println(err)
-			w.WriteHeader(http.StatusUnauthorized)
+			w.WriteHeader(http.StatusMovedPermanently)
+			http.Redirect(w,r, "/", http.StatusFound)
 			fmt.Fprint(w, "Unauthorized access to this resource")
 		}
 
