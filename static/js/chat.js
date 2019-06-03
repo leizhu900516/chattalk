@@ -41,6 +41,7 @@ window.onload = function () {
     });
 
     if (window["WebSocket"]) {
+        alert("aaaa");
         conn = new WebSocket("ws://" + document.location.host + "/ws?userid="+localuid+"&destid=1000");
         //第一次进入初始化,建立链接的
         if(conn.readyState==1){
@@ -66,6 +67,7 @@ window.onload = function () {
         };
 
     } else {
+        console.log("不支持websocket");
         var item = document.createElement("div");
         item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
         appendLog(item);

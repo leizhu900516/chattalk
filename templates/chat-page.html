@@ -42,7 +42,7 @@
         .chat-msg-dest{
             background-color: #eeeeee;
             border: 1px solid #9999;
-            width: 90%;
+            /*width: 90%;*/
             color: #222831;
         }
         .chat-footer{
@@ -59,6 +59,37 @@
         .icon-1-5{
             width: 1.5em;
             height: 1.5em;
+        }
+
+        .tip {
+            position: relative;
+
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            font-family: sans-serif;
+        }
+        .tip:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 8px solid;
+        }
+        .right:after {
+            border-left-color: #222831;
+            left: 100%;
+            top: 30%;
+            margin-top: -7px;
+        }
+        .right{margin-right: 12px;}
+        .left{margin-left: 12px;}
+        .left:after {
+            border-right-color: #eeeeee;
+            top: 30%;
+            margin-left: 12px;
+            right: 100%;
+            margin-top: -9px;
         }
     </style>
 </head>
@@ -79,16 +110,16 @@
         </div>
     </div>
     <div class="chat-body d-flex flex-column p-2" id="log">
-        <div class="msg-item d-flex flex-row" >
+        <div class="msg-item d-flex flex-row ">
             <img src="https://upyun.bao361.cn/image_upload_api/945886ff2cf76308e237186fb57ad9530.983230097368" class="user-photo rounded d-block mr-1">
-            <div >
-                <p class="chat-msg-dest rounded p-1">这是一条消息这是一条消息这是一条消息这是一条消息这是一条消息这是一条消息这是一条消息</p>
+            <div class="tip left">
+                <p class="chat-msg-dest rounded p-1">好友发送的消息；好友发送的消息；好友发送的消息；</p>
             </div>
         </div>
-        <div class="msg-item d-flex flex-row flex-row-reverse">
+        <div class="msg-item d-flex flex-row flex-row-reverse ">
             <img src="/static/images/online.png" class="user-photo rounded d-block ml-1">
-            <div >
-                <p class="chat-msg rounded p-1">这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一</p>
+            <div class="tip right">
+                <p class="chat-msg rounded p-1">自己发送的消息-自己发送的消息-自己发送的消息-自己发送的消息-</p>
             </div>
         </div>
     </div>
@@ -134,7 +165,8 @@
 
 <script src="/static/js/utils.js"></script>
 <script src="/static/js/chat.js"></script>
+<!--
 <script src="/static/plugin/kefu.js"></script>
-
+-->
 </body>
 </html>
