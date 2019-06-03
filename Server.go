@@ -54,8 +54,8 @@ func main(){
 
 	http.HandleFunc("/",views.Home)
 	http.HandleFunc("/login",views.LoginHandle)
-	//http.HandleFunc("/chat",views.ChatHome)
-	http.Handle("/chat",views.ValidateTokenMiddleware(http.HandlerFunc(views.ChatHome)))
+	http.HandleFunc("/chat",views.ChatHome)
+	//http.Handle("/chat",views.ValidateTokenMiddleware(http.HandlerFunc(views.ChatHome)))
 	http.Handle("/admin",views.ValidateTokenMiddleware(http.HandlerFunc(views.AdminHome)))
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		hub.ServerWsSwitch(hubs,w,r)

@@ -86,13 +86,17 @@ func ValidateTokenMiddleware(next  http.HandlerFunc) http.Handler{
 				//w.WriteHeader(http.StatusUnauthorized)
 				http.Redirect(w,r, "/", http.StatusFound)
 				fmt.Fprint(w, "Token is not valid")
+				return
+
 			}
 		} else {
 			fmt.Println("333")
 			log.Println(err)
-			w.WriteHeader(http.StatusMovedPermanently)
+			//w.WriteHeader(http.StatusMovedPermanently)
 			http.Redirect(w,r, "/", http.StatusFound)
 			fmt.Fprint(w, "Unauthorized access to this resource")
+			return
+
 		}
 
 	})

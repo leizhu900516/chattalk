@@ -84,6 +84,8 @@ func (c *Client) readPump(hub *Hub){
 			fmt.Printf("%v在线",msg.Destid)
 			cl.send <- message
 		}else {
+			responsedata,_ := json.Marshal(Message{Userid:msg.Destid,Destid:msg.Userid,Content:"不在线",Addtime:time.Now().String()[:19]})
+			hub.port[msg.Userid].send <- []byte(responsedata)
 			fmt.Println("不在线")
 		}
 

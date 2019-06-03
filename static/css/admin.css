@@ -45,6 +45,13 @@ cite{
 }
 .setting-items{
     list-style: none;
+    width: 100%;
+    text-align: center;
+}
+.setting-items li{
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
 }
 .setting-items svg{
     margin-right: 12px;
