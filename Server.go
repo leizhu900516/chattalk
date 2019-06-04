@@ -21,12 +21,15 @@ import (
 func main(){
 
 	hubs := hub.NewHub()
+
 	go hubs.Run()
 	//静态文件设置
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	http.HandleFunc("/",views.Home)
 	http.HandleFunc("/login",views.LoginHandle)
+	http.HandleFunc("/test",views.TestHandle)
+	http.HandleFunc("/servicep",views.ServicePeopleHandle)
 	http.HandleFunc("/chat",views.ChatHome)
 	//http.Handle("/chat",views.ValidateTokenMiddleware(http.HandlerFunc(views.ChatHome)))
 	http.Handle("/admin",views.ValidateTokenMiddleware(http.HandlerFunc(views.AdminHome)))

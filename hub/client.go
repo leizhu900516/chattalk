@@ -19,22 +19,38 @@ type Message struct {
 	Destid string `json:"destid"`
 	Content string `jons:"content"`
 	Addtime string `json:"addtime"`
-	MsgType uint8 `json:"msgtype"`
+	MsgType int `json:"msgtype"`
 }
+
+//管理员结构
+type UserCredentials struct {
+	Username string
+	Password string
+}
+
 
 var (
 	newline = []byte{'\n'}
 	space   = []byte{' '}
+
+	ServicePersionMap *map[string]ServicePersonnel
+
+	upgrader = websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+		ReadBufferSize:1024,
+		WriteBufferSize:1024,
+	}
+
+	//默认管理员账号 id:账号->密码
+	AdminAccount =  map[string]UserCredentials{
+		"1000":{Username:"admin",Password:"123456"},
+	}
 )
 
 
-var upgrader = websocket.Upgrader{
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-	ReadBufferSize:1024,
-	WriteBufferSize:1024,
-}
+
 
 const (
 	// Time allowed to write a message to the peer.

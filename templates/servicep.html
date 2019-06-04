@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>客服页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/static/bootstrap/bootstrap.min.css" >
+    <link rel="stylesheet" href="/static/css/admin.css" >
+    <style>
+        .service-setting{
+            padding: 0;
+        }
+        .service-setting .s-body{
+            padding: 0;
+        }
+        .service-setting .title{
+            height: 60px;
+            color: #666;
+            line-height: 60px;
+            background-color: #eaeaea;
+        }
+        .service-setting .account{
+            padding: 10px;
+        }
+        .addservice{
+            color: #ff2e63;
+            font-size: 19px;
+            cursor: pointer;
+        }
+        .delete-service{
+            cursor: pointer;
+            color: #ff2e63;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chc-main container-fluid">
+    <div class="row " >
+        <div class="chc-left col-2 ">
+            <div class="pt-4 d-flex flex-column align-items-center justify-content-start ">
+                <div class="login-user">
+                    <img src="/static/images/touxiang.jpeg" class="rounded">
+                </div>
+                <ul class="setting-items pt-4">
+                    <li class="mb-2">
+                        <a href="/admin">
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-liaotian"></use>
+                            </svg>
+                            <cite>会话</cite>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="/servicep">
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-fangke"></use>
+                            </svg>
+                            <cite>坐席</cite>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#">
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-gear"></use>
+                            </svg>
+                            <cite>配置</cite>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="login-exit-tool">
+                <div class="fixed-bottom d-flex flex-column justify-content-center">
+                    <span id="exit-id">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-tuichu"></use>
+                        </svg>
+                    </span>
+                    <p>2019 copyright MIT</p>
+                </div>
+            </div>
+        </div>
+        <div class="chc-right col-10 ">
+            <div class="row service-setting">
+                <div class="col-12 s-body">
+                    <div class="title">
+                        <p class="ml-2">坐席管理</p>
+                    </div>
+                    <div class="account">
+                        <div class="card">
+                            <div class="card-header d-flex flex-row justify-content-between">
+                                <p>所有账号 1</p>
+                                <p>管理员 1</p>
+                                <p>普通客服 0</p>
+                                <p class="addservice">+ 添加账号</p>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>用户名</th>
+                                        <th>工号</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>admin</td>
+                                        <td>1000</td>
+                                        <td>
+                                            <span class="delete-service">删除</span>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<script src="/static/jquery/jquery.min.js"></script>
+<script src="/static/iconfont/iconfont.js"></script>
+<script src="/static/bootstrap/bootstrap.min.js" ></script>
+</body>
+</html>

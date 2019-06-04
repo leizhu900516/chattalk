@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"html/template"
 	"log"
 	"net/http"
 	"time"
@@ -12,10 +13,8 @@ const (
 	SecretKey = "thisis secretkey"
 )
 
-type UserCredentials struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
+
+//jwt success return data
 type Token struct {
 	Token string `json:"token"`
 	Code int `json:"code"`
@@ -25,17 +24,38 @@ func ChatHome( w http.ResponseWriter, r *http.Request){
 	http.ServeFile(w,r,"templates/chat-page.html")
 }
 func AdminHome( w http.ResponseWriter, r *http.Request){
-	http.ServeFile(w,r,"templates/admin.html")
+	serviceId := "1000"
+	username, _ := r.Cookie("_uname")
+	if username.Value == "admin" {
+		fmt.Println("admin")
+		serviceId = "1000"
+	}else {
+		serviceId = "1000"
+	}
+
+	myTemplate,_ := template.ParseFiles("templates/admin.html")
+	myTemplate.Execute(w,serviceId)
 }
 
 func Home(w http.ResponseWriter,r *http.Request){
 	http.ServeFile(w,r,"templates/login.html")
 }
 
+//测试页
+func TestHandle(w http.ResponseWriter,r *http.Request){
+	myTemplate,err := template.ParseFiles("templates/test.html")
+	if err!= nil{
+		fmt.Println(err)
+	}
+	p:=1000
+	myTemplate.Execute(w,p)
+}
+
+func ServicePeopleHandle(w http.ResponseWriter,r *http.Request){
+	http.ServeFile(w,r,"templates/servicep.html")
+}
 func LoginHandle(w http.ResponseWriter, r *http.Request) {
-	//var user UserCredentials
-	//fmt.Println(r.Body)
-	fmt.Println(r.FormValue("username"))
+
 	var username = r.FormValue("username")
 	var password = r.FormValue("password")
 
@@ -45,6 +65,7 @@ func LoginHandle(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusForbidden)
 		return
 	}
+	http.SetCookie(w,&http.Cookie{Name:"_uname",Value:username,HttpOnly:true})
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := make(jwt.MapClaims)
 	claims["exp"] = time.Now().Add(time.Hour*time.Duration(1)).Unix()
@@ -63,10 +84,6 @@ func LoginHandle(w http.ResponseWriter, r *http.Request) {
 
 func ValidateTokenMiddleware(next  http.HandlerFunc) http.Handler{
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		//token, err := request.ParseFromRequest(r, request.AuthorizationHeaderExtractor,
-		//	func(token *jwt.Token) (interface{}, error) {
-		//		return []byte(SecretKey), nil
-		//	})
 
 		tokenString ,err:= r.Cookie("token")
 		fmt.Println("cookie=",tokenString)
@@ -79,7 +96,7 @@ func ValidateTokenMiddleware(next  http.HandlerFunc) http.Handler{
 			return []byte(SecretKey),nil
 		})
 		if err == nil {
-			fmt.Println("222")
+			//fmt.Println("222")
 			if token.Valid {
 				next(w, r)
 			} else {
@@ -90,8 +107,6 @@ func ValidateTokenMiddleware(next  http.HandlerFunc) http.Handler{
 
 			}
 		} else {
-			fmt.Println("333")
-			log.Println(err)
 			//w.WriteHeader(http.StatusMovedPermanently)
 			http.Redirect(w,r, "/", http.StatusFound)
 			fmt.Fprint(w, "Unauthorized access to this resource")
@@ -104,7 +119,7 @@ func ValidateTokenMiddleware(next  http.HandlerFunc) http.Handler{
 }
 func JsonResponse(response interface{}, w http.ResponseWriter) {
 
-	json, err := json.Marshal(response)
+	_json, err := json.Marshal(response)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -112,5 +127,5 @@ func JsonResponse(response interface{}, w http.ResponseWriter) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(json)
+	w.Write(_json)
 }

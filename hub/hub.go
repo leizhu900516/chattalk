@@ -35,6 +35,7 @@ func (hub *Hub) Run(){
 		select {
 		case client := <- hub.register:
 			hub.client[client] = true
+
 		case client := <- hub.unregister:
 			fmt.Println("有客户端关闭")
 			if _,ok := hub.client[client];ok{
@@ -47,9 +48,13 @@ func (hub *Hub) Run(){
 				delete(hub.hubport,client.uid)
 
 			}
-			case client := <- hub.broadcast:
-				//通告所有的客服
-				fmt.Println(client)
+		case client := <- hub.broadcast:
+			//通告所有的客服
+			fmt.Println(client)
+			for key,value := range *ServicePersionMap{
+				fmt.Println(key)
+				fmt.Println(value)
+			}
 		}
 	}
 }
