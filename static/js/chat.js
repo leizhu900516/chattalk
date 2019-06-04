@@ -32,7 +32,7 @@ window.onload = function () {
             }
             // alert("aaa");
             var datetime = formatDate((new Date()),"yyyy-MM-dd hh:mm:ss");
-            var message = {"userid":localuid,"destid":'1000',"content":selfmessage,"addtime":datetime};
+            var message = {"userid":localuid,"destid":'1000',"content":selfmessage,"addtime":datetime,msgtype:1024};
             conn.send(JSON.stringify(message));
             appendMsg(log,generateSelfSendMsgHtml(selfmessage));
             msg.value = "";
@@ -41,7 +41,6 @@ window.onload = function () {
     });
 
     if (window["WebSocket"]) {
-        alert("aaaa");
         conn = new WebSocket("ws://" + document.location.host + "/ws?userid="+localuid+"&destid=1000");
         //第一次进入初始化,建立链接的
         if(conn.readyState==1){

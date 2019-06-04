@@ -10,7 +10,7 @@ function generateSelfSendMsgHtml(message) {
 //好友发送的信息插入聊天框函数
 function generateFriendSendMsgHtml(message) {
     return `<div class="msg-item d-flex flex-row">
-            <img src="/static/images/online.png" class="user-photo rounded d-block mr-1">
+            <img src="https://upyun.bao361.cn/image_upload_api/945886ff2cf76308e237186fb57ad9530.983230097368" class="user-photo rounded d-block mr-1">
             <div >
                 <p class="chat-msg-dest rounded p-1">`+message+`</p>
             </div>

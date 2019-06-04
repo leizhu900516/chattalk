@@ -10,6 +10,10 @@ import (
 	"time"
 )
 
+//消息结构
+// msgtype 几种角色：
+//			1、客服是否在线
+//			2、获取历史消息
 type Message struct {
 	Userid string `json:"userid"`
 	Destid string `json:"destid"`
@@ -23,10 +27,15 @@ var (
 	space   = []byte{' '}
 )
 
+
 var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+	ReadBufferSize:1024,
+	WriteBufferSize:1024,
 }
+
 const (
 	// Time allowed to write a message to the peer.
 	writeWait = 10 * time.Second
@@ -39,7 +48,18 @@ const (
 
 	// Maximum message size allowed from peer.
 	maxMessageSize = 512
+
+	//客户端断开连接
+	msgClientClose = 1023
+
+	//正常聊天状态
+	msgNormal = 1024
+
+	//客服不在线
+	msgKefuOutline = 1025
+
 )
+//客户端
 type Client struct {
 	hub *Hub
 	conn *websocket.Conn
@@ -47,6 +67,15 @@ type Client struct {
 	uid string
 }
 
+//客服人员
+type ServicePersonnel struct{
+	Sid uint64
+	conn *websocket.Conn
+	online bool
+}
+
+
+//ServicePersonnelMap := make(map[int]ServicePersonnel{Sid:10000,})
 
 func (c *Client) readPump(hub *Hub){
 	fmt.Println("groutine读",hub)
@@ -80,12 +109,12 @@ func (c *Client) readPump(hub *Hub){
 		fmt.Println(">>>>>",msg.Destid)
 		fmt.Println(">>>>>",hub)
 		fmt.Println(">>>>>",reflect.TypeOf(msg.Destid))
-		if cl,ok := hub.port[msg.Destid];ok{
+		if cl,ok := hub.hubport[msg.Destid];ok{
 			fmt.Printf("%v在线",msg.Destid)
 			cl.send <- message
 		}else {
-			responsedata,_ := json.Marshal(Message{Userid:msg.Destid,Destid:msg.Userid,Content:"不在线",Addtime:time.Now().String()[:19]})
-			hub.port[msg.Userid].send <- []byte(responsedata)
+			responsedata,_ := json.Marshal(Message{Userid:msg.Destid,Destid:msg.Userid,Content:"客服不在线",Addtime:time.Now().String()[:19],MsgType:msgKefuOutline})
+			hub.hubport[msg.Userid].send <- []byte(responsedata)
 			fmt.Println("不在线")
 		}
 
@@ -152,7 +181,7 @@ func ServerWsSwitch(hub *Hub,w http.ResponseWriter,r *http.Request){
 	}
 	client := &Client{conn:conn,hub:hub,send:make(chan []byte,1000),uid:_userid}
 	client.hub.register<-client
-	hub.port[_userid] = client
+	hub.hubport[_userid] = client
 	fmt.Println(_userid+"已经注册")
 	go client.writePump(hub)
 	go client.readPump(hub)
