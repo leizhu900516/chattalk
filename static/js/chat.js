@@ -41,7 +41,10 @@ window.onload = function () {
     });
 
     if (window["WebSocket"]) {
-        conn = new WebSocket("ws://" + document.location.host + "/ws?userid="+localuid+"&destid=1000");
+        //test
+        // conn = new WebSocket("ws://" + document.location.host + "/ws?userid="+localuid+"&destid=1000");
+        //formal
+        conn = new WebSocket("ws://wss.baidu.cn/ws?userid="+localuid+"&destid=1000");
         //第一次进入初始化,建立链接的
         if(conn.readyState==1){
             console.log("connection success")

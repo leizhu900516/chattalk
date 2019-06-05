@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"flag"
 	"log"
 	"net/http"
 	"shuoba/hub"
@@ -19,13 +19,15 @@ import (
 
 
 func main(){
+	port := flag.String("port","12345","http listen port")
+	flag.Parse()
 
+	//生成hub交换机
 	hubs := hub.NewHub()
-
 	go hubs.Run()
 	//静态文件设置
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
-
+	//routing
 	http.HandleFunc("/",views.Home)
 	http.HandleFunc("/login",views.LoginHandle)
 	http.HandleFunc("/test",views.TestHandle)
@@ -36,8 +38,8 @@ func main(){
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		hub.ServerWsSwitch(hubs,w,r)
 	})
-	fmt.Println("start server 0.0.0.0:12345")
-	err :=http.ListenAndServe("0.0.0.0:12345",nil);if err !=nil{
-		log.Fatal("start error")
+	log.Printf("start server 0.0.0.0:%v\n",*port)
+	err :=http.ListenAndServe("0.0.0.0:"+*port,nil);if err !=nil{
+		log.Fatal("start error",err)
 	}
 }

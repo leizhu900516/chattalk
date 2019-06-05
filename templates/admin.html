@@ -178,7 +178,10 @@
         });
 
         if (window["WebSocket"]) {
-            conn = new WebSocket("ws://" + document.location.host + "/ws?userid="+serviceId+"&destid=null");
+            //test
+            // conn = new WebSocket("ws://" + document.location.host + "/ws?userid="+serviceId+"&destid=null");
+            //formal
+            conn = new WebSocket("wss://wss.baidu.cn/ws?userid="+serviceId+"&destid=null");
             if(conn.readyState==1){
                 console.log("socket成功建立连接")
             }else {

@@ -47,9 +47,10 @@ func (hub *Hub) Run(){
 				// 像客服的队列发送一个客户退出的消息  msgClientClose
 				// 客服前台根据标示，标记目标客服下线。？时间段内删除左侧下线的客户列表(避免客户过多)
 				log.Println("删除客户",client.uid)
+				delete(hub.hubport,client.uid)
 				delete(hub.client,client)
 				close(client.send)
-				delete(hub.hubport,client.uid)
+
 
 			}else {
 				fmt.Println("客服端不在hub中")
