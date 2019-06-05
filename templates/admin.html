@@ -57,26 +57,33 @@
         <div class="chc-right col-10 ">
             <div class="container">
                 <div class="row">
-                    <div class="col-2 d-flex flex-column users-left">
+                    <div class="col-3 d-flex flex-column users-left">
                         <div class="chc-search">
                             <span>正在聊天</span>
                         </div>
+                        <!--样例数据-->
+
                         <div class="chat-user-list" id="chat-user-list">
+                            <!--
                             <div class="chc-users d-flex flex-row align-items-center chc-chating-this" data-cid="1001" onclick="chatClick(this)" id="chenhuachao">
                                 <img src="/static/images/touxiang.jpeg" class="mr-1">
                                 <div class="mr-1 flex-grow-1">
                                     <span class="h-10">测试用户</span>
                                     <span class="badge badge-danger">4</span>
+                                    <span class="badge badge-success u-online" >在线</span>
                                 </div>
                             </div>
+                            -->
                         </div>
 
                     </div>
-                    <div class="col-10 user-chat-body d-flex flex-column">
+                    <div class="col-9 user-chat-body d-flex flex-column" style="display: none!important;">
                         <div class="chc-title d-flex flex-row align-items-center ">
-                            <span class="ml-2" id="local-username">用户AAAAA</span>
+                            <span class="ml-2" id="local-username">暂无用户</span>
                         </div>
                         <div class="chc-body p-2 " id="messagelog">
+                            <!--聊天样例数据-->
+                            <!--
                             <div class="msg-item d-flex flex-row">
                                 <img src="/static/images/online.png" class="user-photo rounded d-block mr-1">
                                 <div >
@@ -89,6 +96,7 @@
                                     <p class="chat-msg rounded p-1">这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一这是一条消息这是一</p>
                                 </div>
                             </div>
+                            -->
                         </div>
                         <div class="chc-toos d-flex flex-column ">
                             <div class="chc-chat-tools d-flex flex-row p-2 ">
@@ -105,6 +113,12 @@
                             <div class="chc-chat-input chc-input-input" id="msg" contenteditable="true">
                             </div>
                         </div>
+                    </div >
+                    <div class="col-9 d-flex flex-column justify-content-center align-items-center" id="no-chat-body">
+                        <svg class="icon no-msg-icon" aria-hidden="true">
+                            <use xlink:href="#icon-zanwuxiaoxi1"></use>
+                        </svg>
+                        <h4 class="no-chat-warring">如有访客，请点击左侧进行聊天</h4>
                     </div>
                 </div>
             </div>
@@ -176,9 +190,17 @@
                 item.innerHTML = "<b>Connection closed.</b>";
                 alert("server close");
             };
+            //接收到消息
             conn.onmessage = function (evt) {
+
                 console.log(JSON.parse(evt.data));
+                //todo 用户离线处理 Content: "用户离线" addtime: "2019-06-05 11:43:32" destid: "1000" msgtype: 1023 userid: "09561853313
+                //判断msgtype=1023即为离线
+
                 var messages = JSON.parse(evt.data);
+                if(messages.msgtype==1023){
+                    online2offline(messages.userid)
+                }
                 recvMsgreloadChatPage(messages);
 
             };
@@ -250,6 +272,8 @@
     //点击用户列表的某个用户时，重载函数
     function chatClick(e) {
         console.log(allMsgObj);
+        //重载右侧聊天面板
+        chatbodytranslate();
         //获取div的用户信息
         var userid = $(e).attr("data-cid");
         console.log(userid);
@@ -270,7 +294,7 @@
         }
         console.log(allMsgObj);
     }
-
+    //更新所有消息函数
     function updateAllMsgData(uid,msg,who,addtime=null) {
         if(datetime){
             var datetime = addtime;
@@ -280,11 +304,27 @@
 
         allMsgObj[uid]['message'].push({"msg":msg,"obj":who,"date":datetime},);
     }
-
+    //退出
     $("#exit-id").on("click",function () {
         delCookie("token");
         window.location.href="/";
     });
+    //右侧聊天面板重载
+    function  chatbodytranslate() {
+        $("#no-chat-body").css("cssText","display:none!important");
+        $(".user-chat-body").css("cssText","display:flex!important");
+    }
+    //更改在线离线状态
+    function online2offline(uid) {
+        $("#chat-user-list>div").each(function(){
+            if($(this).attr("data-cid")==uid){
+                console.log($(this).find("span").last());
+                $(this).find("span").last().removeClass("badge-success");
+                $(this).find("span").last().addClass("badge-secondary");
+                $(this).find("span").last().text("离线");
+            }
+        });
+    }
 </script>
 </body>
 </html>

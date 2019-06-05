@@ -23,6 +23,7 @@ function  generateFriendListHtml(userid,unreadMsgCount,username) {
                                 <div class="mr-1 flex-grow-1">
                                     <span class="h-10">`+username+`</span>
                                     <span class="badge badge-danger">`+unreadMsgCount+`</span>
+                                    <span class="badge badge-success u-online" >在线</span>
                                 </div>
                             </div>`
 }

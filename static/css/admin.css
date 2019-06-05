@@ -12,14 +12,21 @@ cite{
 }
 
 /*icon*/
-
+.badge-danger {
+    color: #fff;
+    background-color: #ff2e63!important;
+}
 .icon {
     width: 1.2em;
     height: 1.2em;
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
-    color: #fff!important;
+    /*color: #fff!important;*/
+}
+.no-msg-icon{
+    width: 4em;
+    height: 4em;
 }
 .icon-1-5 {
     width: 1.5em;
@@ -161,4 +168,7 @@ cite{
 }
 #exit-id{
     cursor: pointer;
+}
+.no-chat-warring{
+    color: #999;
 }

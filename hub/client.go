@@ -17,7 +17,7 @@ import (
 type Message struct {
 	Userid string `json:"userid"`
 	Destid string `json:"destid"`
-	Content string `jons:"content"`
+	Content string `json:"content"`
 	Addtime string `json:"addtime"`
 	MsgType int `json:"msgtype"`
 }
@@ -196,6 +196,7 @@ func ServerWsSwitch(hub *Hub,w http.ResponseWriter,r *http.Request){
 		return
 	}
 	client := &Client{conn:conn,hub:hub,send:make(chan []byte,1000),uid:_userid}
+	hub.client[client] = true
 	client.hub.register<-client
 	hub.hubport[_userid] = client
 	fmt.Println(_userid+"已经注册")

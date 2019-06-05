@@ -3,6 +3,8 @@ package hub
 import (
 	"fmt"
 	"log"
+	"time"
+	"encoding/json"
 )
 
 type Hub struct {
@@ -10,7 +12,7 @@ type Hub struct {
 	register chan *Client
 	unregister chan *Client
 	hubport map[string] *Client //转发到指定端口=用户id
-	broadcast chan *Client //客户退出的广播通道
+	broadcast chan string //客户退出的广播通道
 }
 
 
@@ -23,7 +25,7 @@ func NewHub() *Hub{
 		register: make(chan *Client),
 		unregister: make(chan *Client),
 		hubport: make(map[string]*Client),
-		broadcast: make(chan *Client),
+		broadcast: make(chan string,2),
 	}
 }
 
@@ -34,10 +36,12 @@ func (hub *Hub) Run(){
 	for {
 		select {
 		case client := <- hub.register:
+			fmt.Println("register",client)
 			hub.client[client] = true
 
 		case client := <- hub.unregister:
-			fmt.Println("有客户端关闭")
+			fmt.Println("有客户端关闭",client)
+			hub.broadcast <- client.uid
 			if _,ok := hub.client[client];ok{
 				//todo 客户对应哪个客服
 				// 像客服的队列发送一个客户退出的消息  msgClientClose
@@ -47,14 +51,24 @@ func (hub *Hub) Run(){
 				close(client.send)
 				delete(hub.hubport,client.uid)
 
+			}else {
+				fmt.Println("客服端不在hub中")
 			}
-		case client := <- hub.broadcast:
+			fmt.Println("清除成功")
+		case uid := <- hub.broadcast:
 			//通告所有的客服
-			fmt.Println(client)
-			for key,value := range *ServicePersionMap{
-				fmt.Println(key)
-				fmt.Println(value)
+
+			kefuid := "1000"
+			if uid != kefuid{
+				fmt.Println("通知客服用户离线",uid)
+				responsedata,_ := json.Marshal(Message{Userid:uid,Destid:kefuid,Content:"用户离线",Addtime:time.Now().String()[:19],MsgType:msgClientClose})
+				hub.hubport[kefuid].send <- []byte(responsedata)
 			}
+
+			//for key,value := range *ServicePersionMap{
+			//	fmt.Println(key)
+			//	fmt.Println(value)
+			//}
 		}
 	}
 }
