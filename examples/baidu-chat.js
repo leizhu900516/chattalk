@@ -16,7 +16,7 @@ Page({
         console.log(uid);
         // 监听页面加载的生命周期函数
         swan.connectSocket({
-            url: 'wss://wss.bao361.cn/ws?userid='+uid+'&destid=1000',
+            url: 'wss://wss.xxxx.cn/ws?userid='+uid+'&destid=1000',
             header:{},
             protocols:[''],
             success: function (res) {
