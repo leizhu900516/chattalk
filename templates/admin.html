@@ -65,7 +65,7 @@
 
                         <div class="chat-user-list" id="chat-user-list">
                             <!--
-                            <div class="chc-users d-flex flex-row align-items-center chc-chating-this" data-cid="1001" onclick="chatClick(this)" id="chenhuachao">
+                            <div class="chc-users d-flex flex-row align-items-center chc-chating-this" data-cid="1001" onclick="chatClick(this)"  data-online="yes">
                                 <img src="/static/images/touxiang.jpeg" class="mr-1">
                                 <div class="mr-1 flex-grow-1">
                                     <span class="h-10">测试用户</span>
@@ -179,9 +179,9 @@
 
         if (window["WebSocket"]) {
             //test
-            // conn = new WebSocket("ws://" + document.location.host + "/ws?userid="+serviceId+"&destid=null");
+            conn = new WebSocket("ws://" + document.location.host + "/ws?userid="+serviceId+"&destid=null");
             //formal
-            conn = new WebSocket("wss://wss.baidu.cn/ws?userid="+serviceId+"&destid=null");
+            // conn = new WebSocket("wss://wss.baidu.cn/ws?userid="+serviceId+"&destid=null");
             if(conn.readyState==1){
                 console.log("socket成功建立连接")
             }else {
@@ -199,7 +199,6 @@
                 console.log(JSON.parse(evt.data));
                 //todo 用户离线处理 Content: "用户离线" addtime: "2019-06-05 11:43:32" destid: "1000" msgtype: 1023 userid: "09561853313
                 //判断msgtype=1023即为离线
-
                 var messages = JSON.parse(evt.data);
                 if(messages.msgtype==1023){
                     online2offline(messages.userid)
@@ -232,15 +231,8 @@
                 }else{
                     //1.2不是当前用户
                     //jquery动态更新气泡
-                    $("#chat-user-list>div").each(function(){
-                        if($(this).attr("data-cid")==destid){
-                            var unreadCount = allMsgObj[destid]['unread']+1;
-                            $(this).children("div").children("span:last").html(unreadCount);
-                        }
-                    });
-                    //todo
                     //更新总数据结构
-                    allMsgObj[destid]['unread']= allMsgObj[destid]['unread']+1;
+                    updateUnreadMsgCount(destid);
                     updateAllMsgData(destid,msg,"he",addtime=recvMsgDate);
                 }
             }else{
@@ -283,7 +275,7 @@
         //气泡为0
         if(allMsgObj[userid]){
             allMsgObj[userid]['unread'] = 0;
-            $(e).children("div").children("span:last").html("");
+            $(e).children("div").children("span:nth-child(2)").html("");
             //去除兄弟元素的chc-chating-this效果
             $(e).siblings().removeClass("chc-chating-this");
             $(e).addClass("chc-chating-this");
@@ -321,6 +313,7 @@
     function online2offline(uid) {
         $("#chat-user-list>div").each(function(){
             if($(this).attr("data-cid")==uid){
+                $(this).attr("data-online","no");
                 console.log($(this).find("span").last());
                 $(this).find("span").last().removeClass("badge-success");
                 $(this).find("span").last().addClass("badge-secondary");
@@ -328,6 +321,32 @@
             }
         });
     }
+    //jquery动态更新气泡
+    function updateUnreadMsgCount(uid) {
+        $("#chat-user-list>div").each(function(){
+            if($(this).attr("data-cid")==uid){
+                var unreadCount = allMsgObj[destid]['unread']+1;
+                $(this).children("div").children("span:last").html(unreadCount);
+            }
+        });
+        //todo
+        //更新总数据结构
+        allMsgObj[uid]['unread']= allMsgObj[uid]['unread']+1;
+    }
+    //定时更新左侧客户列表-清除离线时间大于3分钟的用户
+    setInterval(function () {
+        console.log("定时清理离线用户开始...");
+        $("#chat-user-list>div").each(function () {
+           if($(this).attr("data-online")=="no"){
+               var uid = $(this).attr("data-cid");
+               var lasttime = allMsgObj[uid]["message"][allMsgObj[uid]["message"].length-1]["addtime"];
+               var threeMinute = formatDate(new Date(curDate.getTime()-3*60*1000),"yyyy-MM-dd hh:mm:ss");
+               if(lasttime<threeMinute){
+                   $("#chat-user-list").remove($(this));
+               }
+           }
+        });
+    },60000)
 </script>
 </body>
 </html>
