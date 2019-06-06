@@ -1,9 +1,8 @@
 # chattalk
 IM,客服IM
 ## 功能
-* 对接各种平台
-
-    1.web端样例[web-html5](/templates/chat-page.html)  
+* 对接各种平台  
+    1.web端样例[web-h5](/templates/chat-page.html)  
     2.[百度小程序](examples/baidu-chat.js)  
     3.其它待添加
     
