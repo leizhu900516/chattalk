@@ -104,7 +104,8 @@ cite{
 }
 .users-left{
     border-right: 1px solid #eaeaea;
-    overflow-y: auto;
+    height: 100%;
+    overflow: hidden;
     line-height: 3em;
     padding: 0;
 }
@@ -112,7 +113,9 @@ cite{
     height: 8%;
     border-bottom: 1px solid #eaeaea;
 }
-
+.chat-user-list{
+    overflow-y: scroll;
+}
 .user-chat-body{
     padding: 0;
 }

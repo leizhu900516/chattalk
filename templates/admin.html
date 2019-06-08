@@ -340,7 +340,7 @@
            if($(this).attr("data-online")=="no"){
                var uid = $(this).attr("data-cid");
                var lasttime = allMsgObj[uid]["message"][allMsgObj[uid]["message"].length-1]["addtime"];
-               var threeMinute = formatDate(new Date(curDate.getTime()-3*60*1000),"yyyy-MM-dd hh:mm:ss");
+               var threeMinute = formatDate(new Date(new Date().getTime()-3*60*1000),"yyyy-MM-dd hh:mm:ss");
                if(lasttime<threeMinute){
                    $("#chat-user-list").remove($(this));
                }
