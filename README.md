@@ -10,7 +10,8 @@ IM,客服IM
 -  go run server.go
 - http://127.0.0.1:9090/    默认账户  admin 12345
 - 聊天url http://127.0.0.1:9090/chat
-- 客服地址 http://127.0.0.1:9090/admin
+- 客服地址 http://127.0.0.1:9090/admin  
+- App(待添加)
 ####  部署
 - nginx配置[nginx.conf](wss-nginx.conf)
 #### go实现的客服IM系统，功能如下：
@@ -18,5 +19,5 @@ IM,客服IM
 ![动图](/static/images/Untitled.gif)
 #### 待加功能(TODO)
 - 客服管理(增删) 目前只有一个客服
-- 过期客户列表清除规则
+- ~~过期客户列表清除规则~~
 - 各种平台接入demo

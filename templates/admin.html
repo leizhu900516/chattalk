@@ -65,7 +65,7 @@
 
                         <div class="chat-user-list" id="chat-user-list">
                             <!--
-                            <div class="chc-users d-flex flex-row align-items-center chc-chating-this" data-cid="1001" onclick="chatClick(this)"  data-online="yes">
+                            <div class="chc-users d-flex flex-row align-items-center chc-chating-this" data-cid="1001" onclick="chatClick(this)"  data-online="yes" id="chenhuachao">
                                 <img src="/static/images/touxiang.jpeg" class="mr-1">
                                 <div class="mr-1 flex-grow-1">
                                     <span class="h-10">测试用户</span>
@@ -325,8 +325,8 @@
     function updateUnreadMsgCount(uid) {
         $("#chat-user-list>div").each(function(){
             if($(this).attr("data-cid")==uid){
-                var unreadCount = allMsgObj[destid]['unread']+1;
-                $(this).children("div").children("span:last").html(unreadCount);
+                var unreadCount = allMsgObj[uid]['unread']+1;
+                $(this).children("div").children("span:nth-child(2)").html(unreadCount);
             }
         });
         //todo
@@ -339,15 +339,15 @@
         $("#chat-user-list>div").each(function () {
            if($(this).attr("data-online")=="no"){
                var uid = $(this).attr("data-cid");
-               var lasttime = allMsgObj[uid]["message"][allMsgObj[uid]["message"].length-1]["addtime"];
+               var lasttime = allMsgObj[uid]["message"][allMsgObj[uid]["message"].length-1]["date"];
                var threeMinute = formatDate(new Date(new Date().getTime()-3*60*1000),"yyyy-MM-dd hh:mm:ss");
                if(lasttime<threeMinute){
-                   console.log("清理过期聊天。");
-                   $("#chat-user-list").remove($(this));
+                   console.log("清理过期聊天。",uid,lasttime,threeMinute);
+                   $(this).remove();
                }
            }
         });
-    },60000)
+    },10000)
 </script>
 </body>
 </html>
