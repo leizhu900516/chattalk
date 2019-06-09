@@ -342,6 +342,7 @@
                var lasttime = allMsgObj[uid]["message"][allMsgObj[uid]["message"].length-1]["addtime"];
                var threeMinute = formatDate(new Date(new Date().getTime()-3*60*1000),"yyyy-MM-dd hh:mm:ss");
                if(lasttime<threeMinute){
+                   console.log("清理过期聊天。");
                    $("#chat-user-list").remove($(this));
                }
            }

@@ -142,7 +142,7 @@ cite{
 .chc-chat-input{
     border: 0;
     background-color: transparent;
-    height: auto;
+    /*height: auto;*/
     resize: none;
     outline: none;
     margin-left: auto;
@@ -155,7 +155,7 @@ cite{
     overflow-y: auto;
 }
 .chc-input-input{
-    /*height: 100%;*/
+    height: 100%;
     width: 100%;
     padding-left: 1em;
 }
