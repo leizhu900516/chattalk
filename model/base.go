@@ -25,3 +25,7 @@ func SetEngine() *xorm.Engine{
 	orm.ShowSQL(true)
 	return orm
 }
+
+func init(){
+	SetEngine()
+}
