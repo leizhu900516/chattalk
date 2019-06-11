@@ -9,6 +9,8 @@ import (
 // 客服权重默认都为0
 // 返回当前匹配到的客服信息
 // go test -v
+// go test -v wrr_test.go wrr.go
+// go test -v -test.run TestWrr
 /* 算法结果样例
 目标 a [5, 2, 1] [-3, 2, 1]
 目标 b [2, 4, 2] [2, -4, 2]
