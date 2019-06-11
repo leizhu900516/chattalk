@@ -3,7 +3,7 @@ IM,客服IM
 ## 功能
 * 对接各种平台  
     1.web端样例[web-h5](/templates/chat-page.html)  
-    2.[百度小程序](examples/baidu-chat.js)  
+    2.[百度小程序](examples/baidu_small_program/baidu-chat.js)  
     3.其它小程序【微信...】(实现逻辑同百度小程序案例)  
     4.App(待添加)
     

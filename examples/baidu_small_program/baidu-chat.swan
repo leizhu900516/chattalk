@@ -1,0 +1,32 @@
+<view class="container">
+    <!--to do-->
+    <view class="chat-body" >
+        <view s-for="msg">
+            <view class="heMsg msg-items" s-if="{{item.who=='he'}}">
+                <view class="userimage">
+                    <image src="https://upyun.bao361.cn/image_upload_api/5d3ed4e15c4c4f392ce7c7d2721bb0670.123070095439"></image>
+                </view>
+                <view class="msg tip left">
+                    <text >{{item.msg}}</text>
+                </view>
+
+            </view>
+            <view class="meMsg msg-items" s-if="{{item.who=='self'}}">
+                <view class="userimage">
+                    <image src="https://upyun.bao361.cn/image_upload_api/3331457dc957b937e249b8baeec407ce0.430718135391"></image>
+                </view>
+                <view class="msg tip right">
+                    <text > {{item.msg}}</text>
+                </view>
+            </view>
+        </view>
+        </view>
+    <view class="chat-input">    
+        <form bindsubmit="formSubmit" bindreset="formReset" report-submit>
+            <input type="text" name="msg" value="{{inputvalue}}" />
+            <button type="default" size="mini" class="mini-btn" form-type="submit">发送</button>
+        </form>
+    </view>
+</view>
+
+
