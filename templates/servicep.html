@@ -91,7 +91,7 @@
                                 <p>所有账号 1</p>
                                 <p>管理员 1</p>
                                 <p>普通客服 0</p>
-                                <p class="addservice">+ 添加账号</p>
+                                <p class="addservice" data-toggle="modal" data-target="#addServices">+ 添加账号</p>
                             </div>
                             <div class="card-body">
                                 <table class="table table-nowrap card-table">
@@ -128,10 +128,94 @@
 
 </div>
 
+<!-- 模态框 -->
+<div class="modal fade" id="addServices">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">添加客服坐席</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form onsubmit="return false">
+                    <div class="form-group">
+                        <label for="email">账号</label>
+                        <input type="text" class="form-control" id="account" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">密码</label>
+                        <input type="password" class="form-control" id="pwd" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">工号</label>
+                        <input type="text" class="form-control" id="sid" required placeholder="随便输入10位数字，非0开头">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">真实姓名</label>
+                        <input type="text" class="form-control" id="realname" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="add-btn">确认添加</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- 模态框提示框-->
+<div class="modal fade" id="alertmodal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title" id="alerttitle">成功</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="/static/jquery/jquery.min.js"></script>
 <script src="/static/iconfont/iconfont.js"></script>
 <script src="/static/bootstrap/bootstrap.min.js" ></script>
+<script>
+    $("#add-btn").on("click",function () {
+        var account = $("#account").val();
+        var pwd = $("#pwd").val();
+        var sid = $("#sid").val();
+        var realname = $("#realname").val();
+        $.ajax({
+            url:"/servicep",
+            type:"post",
+            data:{account:account,pwd:pwd,sid:sid,realname:realname},
+            dataType:"json",
+            success:function (res) {
+                console.log(res)
+                if(res.code==0){
+                    $("#alerttitle").html("成功");
+                    $("#alertmodal").modal('show');
+                    setTimeout(function () {
+                        $("#alertmodal").modal('hide');
+                        $("#addServices").modal('hide');
+                    },2000);
+
+                }else {
+                    $("#alerttitle").html("失败");
+                    $("#alertmodal").modal('show');
+                    setTimeout(function () {
+                        $("#alertmodal").modal('hide');
+                        $("#addServices").modal('hide');
+                    },2000);
+                }
+            }
+        })
+    })
+</script>
 </body>
 </html>

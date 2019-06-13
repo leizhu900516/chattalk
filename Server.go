@@ -19,6 +19,7 @@ import (
 
 
 func main(){
+	//orm:=model.SetEngine()
 	port := flag.String("port","12345","http listen port")
 	flag.Parse()
 

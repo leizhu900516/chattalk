@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"shuoba/model"
 )
 const (
 	SecretKey = "thisis secretkey"
@@ -18,6 +19,11 @@ const (
 type Token struct {
 	Token string `json:"token"`
 	Code int `json:"code"`
+}
+
+type ReturnData struct {
+	Code int `json:"code"`
+	Msg string `json:"msg"`
 }
 
 func ChatHome( w http.ResponseWriter, r *http.Request){
@@ -52,7 +58,29 @@ func TestHandle(w http.ResponseWriter,r *http.Request){
 }
 
 func ServicePeopleHandle(w http.ResponseWriter,r *http.Request){
-	http.ServeFile(w,r,"templates/servicep.html")
+	method := r.Method
+	fmt.Println("method=",method)
+	switch method {
+	case "GET":
+		http.ServeFile(w,r,"templates/servicep.html")
+	case "POST":
+		r.ParseForm()
+		fmt.Println(r.Form)
+		account := r.FormValue("account")
+		pwd := r.FormValue("pwd")
+		realname := r.FormValue("realname")
+		sid := r.FormValue("sid")
+		var services  model.Servicesp
+		if err:=services.Insert(account,pwd,realname,sid);err!=nil{
+			fmt.Println(err)
+			JsonResponse(ReturnData{Code:1,Msg:" 插入错误"},w)
+		}else{
+			fmt.Println("insert success")
+		}
+
+		JsonResponse(ReturnData{Code:0,Msg:"success"},w)
+	}
+
 }
 func LoginHandle(w http.ResponseWriter, r *http.Request) {
 

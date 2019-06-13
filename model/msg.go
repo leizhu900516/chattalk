@@ -22,7 +22,7 @@ type Messages struct {
 // 每次获取10条
 func (m *Messages) GetHistoryMsg(limit,step int)([]Messages,error){
 	var data []Messages
-	if err := orm.Table("messages").Limit(limit,limit*(step-1)).Desc("addtime").Find(&data);err!=nil{
+	if err := Orm.Table("messages").Limit(limit,limit*(step-1)).Desc("addtime").Find(&data);err!=nil{
 		return nil,err
 	}
 	return data,nil
@@ -30,7 +30,7 @@ func (m *Messages) GetHistoryMsg(limit,step int)([]Messages,error){
 //插入信息
 func (m *Messages) Insert() error{
 	msg :=new(Messages)
-	if affected,err :=orm.Table("messages").Insert(msg);err!=nil{
+	if affected,err :=Orm.Table("messages").Insert(msg);err!=nil{
 		return err
 	}else {
 		log.Println("插入成功",affected)
@@ -41,7 +41,7 @@ func (m *Messages) Insert() error{
 //更新unread 和updatetime
 func (m *Messages) Update(userid,destid string) error{
 	updatetime := time.Now().Unix()
-	if affected,err := orm.Exec("update messages set unread=1,updatetime= ? where userid = ? and destid = ?",updatetime,userid,destid);err != nil{
+	if affected,err := Orm.Exec("update messages set unread=1,updatetime= ? where userid = ? and destid = ?",updatetime,userid,destid);err != nil{
 		log.Println("update error",err)
 		return err
 	}else{
