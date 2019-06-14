@@ -7,7 +7,9 @@ import (
 	"log"
 	"net/http"
 	"reflect"
+	"strings"
 	"time"
+	"shuoba/utils"
 )
 
 //消息结构
@@ -15,11 +17,11 @@ import (
 //			1、客服是否在线
 //			2、获取历史消息
 type Message struct {
-	Userid string `json:"userid"`
-	Destid string `json:"destid"`
-	Content string `json:"content"`
-	Addtime string `json:"addtime"`
-	MsgType int `json:"msgtype"`
+	Userid 	string 	`json:"userid"`
+	Destid 	string 	`json:"destid"`
+	Content string 	`json:"content"`
+	Addtime string	`json:"addtime"`
+	MsgType int 	`json:"msgtype"`
 }
 
 //管理员结构
@@ -77,17 +79,19 @@ const (
 )
 //客户端
 type Client struct {
-	hub *Hub
-	conn *websocket.Conn
-	send chan []byte
-	uid string
+	hub 		*Hub
+	conn 		*websocket.Conn
+	send 		chan []byte
+	uid 		string
+	location 	string //省市
+	from 		string //来源：小程序，pc，移动端
 }
 
 //客服人员
 type ServicePersonnel struct{
-	Sid uint64
-	conn *websocket.Conn
-	online bool
+	Sid 	uint64
+	conn 	*websocket.Conn
+	online 	bool
 }
 
 
@@ -185,21 +189,28 @@ func (c *Client) writePump(hub *Hub){
 
 func ServerWsSwitch(hub *Hub,w http.ResponseWriter,r *http.Request){
 	r.ParseForm()
-	_userid := r.Form["userid"][0]
-	//_destid := r.Form["destid"][0]
-	fmt.Println(_userid)
-	fmt.Println(reflect.TypeOf(_userid))
+	userid := r.FormValue("userid")
+	from := r.FormValue("from")
+	ip := strings.Split(r.RemoteAddr,":")[0]
+	//获取客户端ip并取省市信息
+	fmt.Println("客户端ip=",ip)
+	location,err := utils.IpLocation(ip)
+	if err!= nil{
+		log.Println("获取ip城市错误=",err)
+	}
+	fmt.Println(userid)
 
 	conn,err := upgrader.Upgrade(w,r,nil)
 	if err !=nil{
 		log.Println(err)
 		return
 	}
-	client := &Client{conn:conn,hub:hub,send:make(chan []byte,1000),uid:_userid}
+
+	client := &Client{conn:conn,hub:hub,send:make(chan []byte,1000),uid:userid,location:location,from:from}
 	hub.client[client] = true
 	client.hub.register<-client
-	hub.hubport[_userid] = client
-	fmt.Println(_userid+"已经注册")
+	hub.hubport[userid] = client
+	fmt.Println(userid+"已经注册")
 	go client.writePump(hub)
 	go client.readPump(hub)
 }

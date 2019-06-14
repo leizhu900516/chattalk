@@ -91,8 +91,9 @@ cite{
     height: 100%;
 }
 .chc-users{
-
+    line-height: normal;
     border-bottom: 1px solid #eaeaea;
+    padding: 2px;
 }
 
 .chc-users img{
@@ -102,19 +103,30 @@ cite{
 .chc-chating-this{
     background-color: #eaeaea;
 }
+.name-unread-status span:nth-child(1){
+    font-weight: 500;
+}
+.consumer-info{
+    font-size: 10px;
+}
+.from-city{
+    color: #666;
+}
 .users-left{
     border-right: 1px solid #eaeaea;
     height: 100%;
     overflow: hidden;
     line-height: 3em;
     padding: 0;
+    padding-right: 10px;
 }
 .users-left .chc-search{
     height: 8%;
     border-bottom: 1px solid #eaeaea;
 }
 .chat-user-list{
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
+    overflow-y: auto;
 }
 .user-chat-body{
     padding: 0;

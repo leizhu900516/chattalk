@@ -4,6 +4,13 @@ window.onload = function () {
     var log = $("#log");
     var localuid = RndNum(11);
 
+    if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
+        //TODO
+        device = "phone";
+    }else{
+        device = "pc";
+    }
+
     document.getElementById("send-id").onclick = function () {
         if (!conn) {
             return false;
@@ -12,7 +19,7 @@ window.onload = function () {
             return false;
         }
         var datetime = formatDate((new Date()),"yyyy-MM-dd hh:mm:ss");
-        var message = {"userid":localuid,"destid":'1000',"content":msg.value,"addtime":datetime};
+        var message = {"userid":localuid,"destid":'1000',"content":msg.value,"addtime":datetime,msgtype:1024,"from":device};
         //conn.send(msg.value);
         conn.send(JSON.stringify(message));
 
@@ -32,7 +39,7 @@ window.onload = function () {
             }
             // alert("aaa");
             var datetime = formatDate((new Date()),"yyyy-MM-dd hh:mm:ss");
-            var message = {"userid":localuid,"destid":'1000',"content":selfmessage,"addtime":datetime,msgtype:1024};
+            var message = {"userid":localuid,"destid":'1000',"content":selfmessage,"addtime":datetime,msgtype:1024,"from":device};
             conn.send(JSON.stringify(message));
             appendMsg(log,generateSelfSendMsgHtml(selfmessage));
             msg.value = "";
@@ -42,7 +49,7 @@ window.onload = function () {
 
     if (window["WebSocket"]) {
         //test
-        conn = new WebSocket("ws://" + document.location.host + "/ws?userid="+localuid+"&destid=1000");
+        conn = new WebSocket("ws://" + document.location.host + "/ws?userid="+localuid+"&destid=1000&from="+device);
         //formal
         // conn = new WebSocket("ws://wss.baidu.cn/ws?userid="+localuid+"&destid=1000");
         //第一次进入初始化,建立链接的

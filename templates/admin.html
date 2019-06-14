@@ -67,10 +67,16 @@
                             <!--
                             <div class="chc-users d-flex flex-row align-items-center chc-chating-this" data-cid="1001" onclick="chatClick(this)"  data-online="yes" id="chenhuachao">
                                 <img src="/static/images/touxiang.jpeg" class="mr-1">
-                                <div class="mr-1 flex-grow-1">
-                                    <span class="h-10">测试用户</span>
-                                    <span class="badge badge-danger">4</span>
-                                    <span class="badge badge-success u-online" >在线</span>
+                                <div class="consumer-info mr-1">
+                                    <div class="name-unread-status">
+                                        <span class="">测试用户</span>
+                                        <span class="badge badge-danger">4</span>
+                                        <span class="badge badge-success u-online" >在线</span>
+                                    </div>
+                                    <div class="from-city">
+                                        <span>PC</span>
+                                        <span>河南 郑州</span>
+                                    </div>
                                 </div>
                             </div>
                             -->
@@ -189,8 +195,6 @@
             }
             //服务端关闭了连接
             conn.onclose = function (evt) {
-                var item = document.createElement("div");
-                item.innerHTML = "<b>Connection closed.</b>";
                 alert("server close");
             };
             //接收到消息
@@ -275,7 +279,7 @@
         //气泡为0
         if(allMsgObj[userid]){
             allMsgObj[userid]['unread'] = 0;
-            $(e).children("div").children("span:nth-child(2)").html("");
+            $(e).children("div").children("div:nth-child(1)").children("span:nth-child(2)").html("");
             //去除兄弟元素的chc-chating-this效果
             $(e).siblings().removeClass("chc-chating-this");
             $(e).addClass("chc-chating-this");
@@ -315,9 +319,9 @@
             if($(this).attr("data-cid")==uid){
                 $(this).attr("data-online","no");
                 console.log($(this).find("span").last());
-                $(this).find("span").last().removeClass("badge-success");
-                $(this).find("span").last().addClass("badge-secondary");
-                $(this).find("span").last().text("离线");
+                $(this).find(".name-unread-status").find("span").last().removeClass("badge-success");
+                $(this).find(".name-unread-status").find("span").last().addClass("badge-secondary");
+                $(this).find(".name-unread-status").find("span").last().text("离线");
             }
         });
     }
@@ -326,7 +330,7 @@
         $("#chat-user-list>div").each(function(){
             if($(this).attr("data-cid")==uid){
                 var unreadCount = allMsgObj[uid]['unread']+1;
-                $(this).children("div").children("span:nth-child(2)").html(unreadCount);
+                $(this).children("div").children("div:nth-child(1)").children("span:nth-child(2)").html(unreadCount);
             }
         });
         //todo
