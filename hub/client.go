@@ -6,7 +6,6 @@ import (
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
-	"reflect"
 	"strings"
 	"time"
 	"shuoba/utils"
@@ -17,11 +16,13 @@ import (
 //			1、客服是否在线
 //			2、获取历史消息
 type Message struct {
-	Userid 	string 	`json:"userid"`
-	Destid 	string 	`json:"destid"`
-	Content string 	`json:"content"`
-	Addtime string	`json:"addtime"`
-	MsgType int 	`json:"msgtype"`
+	Userid 		string 	`json:"userid"`
+	Destid 		string 	`json:"destid"`
+	Content 	string 	`json:"content"`
+	Addtime 	string	`json:"addtime"`
+	MsgType 	int 	`json:"msgtype"`
+	Location 	string 	`json:"location"`
+	From 		string	`json:"from"`
 }
 
 //管理员结构
@@ -97,6 +98,7 @@ type ServicePersonnel struct{
 
 //ServicePersonnelMap := make(map[int]ServicePersonnel{Sid:10000,})
 
+//读信息
 func (c *Client) readPump(hub *Hub){
 	fmt.Println("groutine读",hub)
 	defer func() {
@@ -121,17 +123,17 @@ func (c *Client) readPump(hub *Hub){
 		if err := json.Unmarshal(message,&msg);err !=nil{
 			log.Println(err)
 		}
+		//添加省市+来源
+		msg.Location = c.location
+		msg.From = c.from
+		newmsg,_:=json.Marshal(msg)
 		//发送给目标用户的队列里
 		//fmt.Println(c.conn)
-		fmt.Printf("%v\n",msg)
-
+		fmt.Printf("接收到消息 %v\n",msg)
 		//c.send <- message
-		fmt.Println(">>>>>",msg.Destid)
-		fmt.Println(">>>>>",hub)
-		fmt.Println(">>>>>",reflect.TypeOf(msg.Destid))
 		if cl,ok := hub.hubport[msg.Destid];ok{
-			fmt.Printf("%v在线",msg.Destid)
-			cl.send <- message
+			fmt.Printf("目标用户%v在线",msg.Destid)
+			cl.send <- newmsg
 		}else {
 			responsedata,_ := json.Marshal(Message{Userid:msg.Destid,Destid:msg.Userid,Content:"客服不在线",Addtime:time.Now().String()[:19],MsgType:msgKefuOutline})
 			hub.hubport[msg.Userid].send <- []byte(responsedata)
@@ -142,7 +144,7 @@ func (c *Client) readPump(hub *Hub){
 	}
 
 }
-
+//写信息
 func (c *Client) writePump(hub *Hub){
 	fmt.Println("groutine写")
 	ticker := time.NewTicker(pingPeriod)
@@ -156,7 +158,7 @@ func (c *Client) writePump(hub *Hub){
 		case message,ok := <- c.send:
 			fmt.Println("send\n")
 			//fmt.Println(c.conn)
-			fmt.Printf("%v\n",message)
+			//fmt.Printf("%v\n",message)
 			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
 			if !ok{
 				c.conn.WriteMessage(websocket.CloseMessage,[]byte{})
@@ -193,12 +195,11 @@ func ServerWsSwitch(hub *Hub,w http.ResponseWriter,r *http.Request){
 	from := r.FormValue("from")
 	ip := strings.Split(r.RemoteAddr,":")[0]
 	//获取客户端ip并取省市信息
-	fmt.Println("客户端ip=",ip)
 	location,err := utils.IpLocation(ip)
 	if err!= nil{
 		log.Println("获取ip城市错误=",err)
 	}
-	fmt.Println(userid)
+	fmt.Println("用户id=",userid,"用户省市=",location,"客户端ip=",ip)
 
 	conn,err := upgrader.Upgrade(w,r,nil)
 	if err !=nil{

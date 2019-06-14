@@ -17,7 +17,7 @@ function generateFriendSendMsgHtml(message) {
         </div>`
 }
 //生成客服左侧的聊天用户列表
-function  generateFriendListHtml(userid,unreadMsgCount,username) {
+function  generateFriendListHtml(userid,unreadMsgCount,username,location,from) {
     return `<div class="chc-users d-flex flex-row align-items-center " data-cid="`+userid+`" onclick="chatClick(this)"  data-online="yes" >
                                 <img src="/static/images/touxiang.jpeg" class="mr-1">
                                 <div class="consumer-info mr-1">
@@ -27,8 +27,8 @@ function  generateFriendListHtml(userid,unreadMsgCount,username) {
                                         <span class="badge badge-success u-online" >在线</span>
                                     </div>
                                     <div class="from-city">
-                                        <span>PC</span>
-                                        <span>河南 郑州</span>
+                                        <span>`+from+`</span>
+                                        <span>`+location+`</span>
                                     </div>
                                 </div>
                             </div>`

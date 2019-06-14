@@ -63,7 +63,7 @@ window.onload = function () {
         };
         conn.onclose = function (evt) {
             var item = document.createElement("div");
-            item.innerHTML = "<b>Connection closed.</b>";
+            item.innerHTML = "<b>服务端断开连接.</b>";
             appendMsg(log,item);
         };
         //接收到消息

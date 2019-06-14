@@ -228,6 +228,8 @@
             var destid = message.userid;
             var msg = message.content;
             var recvMsgDate = message.addtime;
+            var location = message.location;
+            var from = message.from;
             if (allMsgObj[destid]){
                 //1.1当前窗口是不是这条消息的用户
                 if(localWindow == destid){
@@ -243,7 +245,7 @@
                 //2、不在用户列表
                 //2.1新增div，置顶，气泡
                 var friendslitdom = $("#chat-user-list");
-                prependFriendslist(friendslitdom,generateFriendListHtml(destid,1,"访"+destid));
+                prependFriendslist(friendslitdom,generateFriendListHtml(destid,1,"访"+destid,location,from));
                 //2.2更新总数据
                 allMsgObj[destid]={};
                 allMsgObj[destid]['unread']=1;
