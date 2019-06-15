@@ -274,7 +274,7 @@
     function chatClick(e) {
         console.log(allMsgObj);
         //重载右侧聊天面板
-        chatbodytranslate();
+        chatbodytranslate(status=true);
         //获取div的用户信息
         var userid = $(e).attr("data-cid");
         console.log(userid);
@@ -311,9 +311,15 @@
         window.location.href="/";
     });
     //右侧聊天面板重载
-    function  chatbodytranslate() {
-        $("#no-chat-body").css("cssText","display:none!important");
-        $(".user-chat-body").css("cssText","display:flex!important");
+    function  chatbodytranslate(status) {
+        if(status==true){
+            $("#no-chat-body").css("cssText","display:none!important");
+            $(".user-chat-body").css("cssText","display:flex!important");
+        }else {
+            $("#no-chat-body").css("cssText","display:flex!important");
+            $(".user-chat-body").css("cssText","display:none!important");
+        }
+
     }
     //更改在线离线状态
     function online2offline(uid) {
@@ -350,6 +356,10 @@
                if(lasttime<threeMinute){
                    console.log("清理过期聊天。",uid,lasttime,threeMinute);
                    $(this).remove();
+                   //没有聊天好友时，恢复原样
+                   if($("#chat-user-list>div").length==0){
+                       chatbodytranslate(status=false);
+                   }
                }
            }
         });
