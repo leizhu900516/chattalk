@@ -193,7 +193,8 @@ func ServerWsSwitch(hub *Hub,w http.ResponseWriter,r *http.Request){
 	r.ParseForm()
 	userid := r.FormValue("userid")
 	from := r.FormValue("from")
-	ip := strings.Split(r.RemoteAddr,":")[0]
+	//ip := strings.Split(r.RemoteAddr,":")[0]
+	ip := utils.RemoteIp(r)
 	//获取客户端ip并取省市信息
 	location,err := utils.IpLocation(ip)
 	if err!= nil{
