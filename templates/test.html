@@ -48,8 +48,24 @@
             margin-top: -9px;
         }
     </style>
+    <script language="javascript" type="text/javascript">
+
+        function autoPlay(){
+
+            var myAuto = document.getElementById('myaudio');
+            myAuto.play();
+            setTimeout(function () {
+                myAuto.pause();
+            },1500)
+        }
+    </script>
+</head>
 </head>
 <body>
+
+<audio id="myaudio" src="/static/media/messagealert.mp3" controls="controls" loop="false" hidden="true" >
+</audio>
+<input type="button" onclick="autoPlay()" value="播放"/>
 <div class="tip top">top</div>
 <div class="tip bottom">bottom</div>
 <div class="tip left">left</div>
@@ -57,3 +73,7 @@
 <h1>{{.}}</h1>
 </body>
 </html>
+
+
+
+

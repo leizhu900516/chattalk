@@ -134,7 +134,7 @@
 
 </div>
 
-
+<audio id="myaudio" src="/static/media/messagealert.mp3" controls="controls" loop="false" hidden="true" >
 
 <script src="/static/jquery/jquery.min.js"></script>
 <script src="/static/iconfont/iconfont.js"></script>
@@ -208,7 +208,8 @@
                     online2offline(messages.userid)
                 }
                 recvMsgreloadChatPage(messages);
-
+                //消息提示音
+                messageAlert();
             };
         } else {
             var item = document.createElement("div");
@@ -363,7 +364,15 @@
                }
            }
         });
-    },10000)
+    },10000);
+    //消息提示音
+    function messageAlert(){
+        var myAuto = document.getElementById('myaudio');
+        myAuto.play();
+        setTimeout(function () {
+            myAuto.pause();
+        },1500)
+    }
 </script>
 </body>
 </html>

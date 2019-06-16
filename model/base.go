@@ -37,6 +37,6 @@ type uitls struct {
 
 }
 func init(){
-	Orm=SetEngine()
+	//Orm=SetEngine()
 	//fmt.Println(Orm.Ping())
 }

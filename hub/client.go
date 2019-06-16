@@ -6,7 +6,6 @@ import (
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
-	"strings"
 	"time"
 	"shuoba/utils"
 )
