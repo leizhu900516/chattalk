@@ -78,6 +78,16 @@
                                         <span>河南 郑州</span>
                                     </div>
                                 </div>
+                                <div class="dropdown">
+                                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    操作
+                                  </button>
+                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                  </div>
+                                </div>
                             </div>
                             -->
                         </div>
@@ -132,13 +142,14 @@
     </div>
 
 
+
 </div>
-
-<audio id="myaudio" src="/static/media/messagealert.mp3" controls="controls" loop="false" hidden="true" >
-
+<!--消息提示音-->
+<audio id="myaudio" src="/static/media/messagealert.mp3" controls="controls" loop="false" hidden="true" ></audio>
 <script src="/static/jquery/jquery.min.js"></script>
 <script src="/static/iconfont/iconfont.js"></script>
 <script src="/static/bootstrap/bootstrap.min.js" ></script>
+<script src="/static/bootstrap/class2context.js" ></script>
 <script src="/static/js/utils.js"></script>
 <!--<script src="/static/js/admin.js" ></script>-->
 <script>
@@ -372,7 +383,12 @@
         setTimeout(function () {
             myAuto.pause();
         },1500)
-    }
+    };
+    class2context(
+        'className',
+        "title",
+        [["option1", "functionoption1()"], ["option 2","functionoption2()"]]
+    );
 </script>
 </body>
 </html>
