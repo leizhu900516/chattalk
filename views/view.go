@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"shuoba/utils"
 	"time"
 	"shuoba/model"
 )
@@ -86,11 +87,13 @@ func LoginHandle(w http.ResponseWriter, r *http.Request) {
 
 	var username = r.FormValue("username")
 	var password = r.FormValue("password")
-
 	fmt.Println(username,password)
-	if username != "admin" && password !="123456"{
+	fmt.Println(utils.Cfg.MustValue("auth","username"))
+	fmt.Println(utils.Cfg.MustValue("auth","password",))
+	if username != utils.Cfg.MustValue("auth","username") || password !=utils.Cfg.MustValue("auth","password",){
 		log.Println("用户密码错误")
-		w.WriteHeader(http.StatusForbidden)
+		//w.WriteHeader(http.StatusForbidden)
+		JsonResponse(ReturnData{Code:1,Msg:"username or password error"},w)
 		return
 	}
 	http.SetCookie(w,&http.Cookie{Name:"_uname",Value:username,HttpOnly:true})

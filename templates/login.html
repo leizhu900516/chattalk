@@ -61,10 +61,9 @@
                 console.log(res);
                 if(res.code==0){
                     setCookie("token",res.token);
-                    debugger
                     window.location.href="/admin";
                 }else{
-
+                    alert("账号密码错误");
                 }
 
             }
