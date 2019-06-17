@@ -64,8 +64,8 @@
                         <!--样例数据-->
 
                         <div class="chat-user-list" id="chat-user-list">
-                            <!--
-                            <div class="chc-users d-flex flex-row align-items-center chc-chating-this" data-cid="1001" onclick="chatClick(this)"  data-online="yes" id="chenhuachao">
+
+                            <div class="chc-users d-flex flex-row align-items-center chc-chating-this" data-cid="1001" onmousedown="chatClick(event,this)"  data-online="yes" id="chenhuachao">
                                 <img src="/static/images/touxiang.jpeg" class="mr-1">
                                 <div class="consumer-info mr-1">
                                     <div class="name-unread-status">
@@ -78,18 +78,8 @@
                                         <span>河南 郑州</span>
                                     </div>
                                 </div>
-                                <div class="dropdown">
-                                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    操作
-                                  </button>
-                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                  </div>
-                                </div>
                             </div>
-                            -->
+
                         </div>
 
                     </div>
@@ -140,8 +130,10 @@
             </div>
         </div>
     </div>
-
-
+    <!--右键弹出div-->
+    <ul id="rightitems">
+        <li>删除</li>
+    </ul>
 
 </div>
 <!--消息提示音-->
@@ -149,10 +141,10 @@
 <script src="/static/jquery/jquery.min.js"></script>
 <script src="/static/iconfont/iconfont.js"></script>
 <script src="/static/bootstrap/bootstrap.min.js" ></script>
-<script src="/static/bootstrap/class2context.js" ></script>
 <script src="/static/js/utils.js"></script>
 <!--<script src="/static/js/admin.js" ></script>-->
 <script>
+    document.oncontextmenu = function(){return false};
     window.onload = function () {
         var conn;
         var serviceId = {{.}};
@@ -283,29 +275,45 @@
 
 
     //点击用户列表的某个用户时，重载函数
-    function chatClick(e) {
-        console.log(allMsgObj);
-        //重载右侧聊天面板
-        chatbodytranslate(status=true);
-        //获取div的用户信息
-        var userid = $(e).attr("data-cid");
-        console.log(userid);
-        //气泡为0
-        if(allMsgObj[userid]){
-            allMsgObj[userid]['unread'] = 0;
-            $(e).children("div").children("div:nth-child(1)").children("span:nth-child(2)").html("");
-            //去除兄弟元素的chc-chating-this效果
-            $(e).siblings().removeClass("chc-chating-this");
-            $(e).addClass("chc-chating-this");
-            $("#local-username").html(userid);
-            //定位当前聊天用户
-            localWindow = userid;
-            //重载聊天面板
-            chatpanelreload(allMsgObj[userid]['message']);
-        }else{
-            alert("用户不存在");
+    function chatClick(event,e) {
+        var btnNum = event.button;
+        var rightitems=document.getElementById('rightitems');
+        if (btnNum==2) //鼠标右键
+        {
+                var x=event.clientX;
+                var y=event.clientY;
+                console.log("X coords: " + x + ", Y coords: " + y);
+                rightitems.style.display='block';
+                rightitems.style.left=x+'px';//如果超出可视区就加scroll
+                rightitems.style.top=y+'px';
+                return false;
         }
-        console.log(allMsgObj);
+        else if(btnNum==0) //鼠标左键
+        {
+            rightitems.style.display='none';
+            console.log(allMsgObj);
+            //重载右侧聊天面板
+            chatbodytranslate(status=true);
+            //获取div的用户信息
+            var userid = $(e).attr("data-cid");
+            console.log(userid);
+            //气泡为0
+            if(allMsgObj[userid]){
+                allMsgObj[userid]['unread'] = 0;
+                $(e).children("div").children("div:nth-child(1)").children("span:nth-child(2)").html("");
+                //去除兄弟元素的chc-chating-this效果
+                $(e).siblings().removeClass("chc-chating-this");
+                $(e).addClass("chc-chating-this");
+                $("#local-username").html(userid);
+                //定位当前聊天用户
+                localWindow = userid;
+                //重载聊天面板
+                chatpanelreload(allMsgObj[userid]['message']);
+            }else{
+                alert("用户不存在");
+            }
+            console.log(allMsgObj);
+        }
     }
     //更新所有消息函数
     function updateAllMsgData(uid,msg,who,addtime=null) {
@@ -383,12 +391,8 @@
         setTimeout(function () {
             myAuto.pause();
         },1500)
-    };
-    class2context(
-        'className',
-        "title",
-        [["option1", "functionoption1()"], ["option 2","functionoption2()"]]
-    );
+    }
+
 </script>
 </body>
 </html>
