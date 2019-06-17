@@ -189,14 +189,30 @@ cite{
 }
 /*右键弹出菜单*/
 #rightitems{
-    position: fixed;
-    display: block;
-    background-color: rgb(246, 248, 250);
-    padding: 2px 10px 2px 10px;
-    border: 1px solid #dedede;
-    color: #303439;
     list-style: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    padding: 5px 0;
+    min-width: 80px;
+    margin: 0;
+    display: none;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .15);
+    box-sizing: border-box;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 #rightitems li{
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
     cursor: pointer;
 }
