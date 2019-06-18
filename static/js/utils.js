@@ -18,7 +18,7 @@ function generateFriendSendMsgHtml(message) {
 }
 //生成客服左侧的聊天用户列表
 function  generateFriendListHtml(userid,unreadMsgCount,username,location,from) {
-    return `<div class="chc-users d-flex flex-row align-items-center " data-cid="`+userid+`" onclick="chatClick(this)"  data-online="yes" >
+    return `<div class="chc-users d-flex flex-row align-items-center " data-cid="`+userid+`" onmousedown="chatClick(event,this)"  data-online="yes" >
                                 <img src="/static/images/touxiang.jpeg" class="mr-1">
                                 <div class="consumer-info mr-1">
                                     <div class="name-unread-status">
