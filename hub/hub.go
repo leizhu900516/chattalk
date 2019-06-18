@@ -63,7 +63,9 @@ func (hub *Hub) Run(){
 			if uid != kefuid{
 				fmt.Println("通知客服用户离线",uid)
 				responsedata,_ := json.Marshal(Message{Userid:uid,Destid:kefuid,Content:"用户离线",Addtime:time.Now().String()[:19],MsgType:msgClientClose})
-				hub.hubport[kefuid].send <- []byte(responsedata)
+				if _,ok :=hub.hubport[kefuid];ok{
+					hub.hubport[kefuid].send <- []byte(responsedata)
+				}
 			}
 
 			//for key,value := range *ServicePersionMap{
