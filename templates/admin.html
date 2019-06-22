@@ -132,7 +132,7 @@
     </div>
     <!--右键弹出div-->
     <ul id="rightitems">
-        <li>删除</li>
+        <li onclick="deletevisitor()">删除</li>
     </ul>
 
 </div>
@@ -149,6 +149,7 @@
         var conn;
         var serviceId = {{.}};
         var msg = $("#msg");
+        deleteuid = '';//右键删除的用户uid
         log = $("#messagelog");
         //所有的消息对象集合
         //格式{
@@ -276,6 +277,9 @@
 
     //点击用户列表的某个用户时，重载函数
     function chatClick(event,e) {
+        //获取div的用户信息
+        var userid = $(e).attr("data-cid");
+        console.log(userid);
         var btnNum = event.button;
         var rightitems=document.getElementById('rightitems');
         console.log(btnNum);
@@ -287,6 +291,7 @@
                 rightitems.style.display='block';
                 rightitems.style.left=x+'px';//如果超出可视区就加scroll
                 rightitems.style.top=y+'px';
+                deleteuid = userid;
                 return false;
         }
         else if(btnNum==0) //鼠标左键
@@ -295,9 +300,7 @@
             console.log(allMsgObj);
             //重载右侧聊天面板
             chatbodytranslate(status=true);
-            //获取div的用户信息
-            var userid = $(e).attr("data-cid");
-            console.log(userid);
+
             //气泡为0
             if(allMsgObj[userid]){
                 allMsgObj[userid]['unread'] = 0;
@@ -332,6 +335,8 @@
         window.location.href="/";
     });
     //右侧聊天面板重载
+    //true 进入聊天面板
+    //false 空白聊天面板
     function  chatbodytranslate(status) {
         if(status==true){
             $("#no-chat-body").css("cssText","display:none!important");
@@ -399,6 +404,15 @@
             rightitems.style.display="none";
         }
 
+    };
+    //删除好友列表
+    function deletevisitor() {
+        $("#chat-user-list>div").each(function(){
+            if($(this).attr("data-cid")==deleteuid){
+                $(this).remove();
+                chatbodytranslate(false);
+            }
+        });
     }
 </script>
 </body>

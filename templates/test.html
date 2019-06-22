@@ -1,22 +1,26 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-    <title>jQuery自定义鼠标右键弹出菜单代码</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
 
-
-<script type="application/javascript">
-    function show_coords(event)
-    {
-        var x=event.clientX;
-        var y=event.clientY;
-        alert("X coords: " + x + ", Y coords: " + y);
-    }
-</script>
+        .container{
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(2, 50px);
+        }
+    </style>
 </head>
 <body>
 
-<p onmousedown="show_coords(event)">Click this paragraph, and an alert box will alert the x and y coordinates of the mouse pointer.</p>
-
+<div class="container">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+</div>
 </body>
 </html>
