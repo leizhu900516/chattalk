@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"shuoba/hub"
 	"shuoba/views"
+	"time"
 )
 
 
@@ -40,7 +41,13 @@ func main(){
 		hub.ServerWsSwitch(hubs,w,r)
 	})
 	log.Printf("start server 0.0.0.0:%v\n",*port)
-	err :=http.ListenAndServe("0.0.0.0:"+*port,nil);if err !=nil{
+	srv := &http.Server{
+		Handler:nil,
+		Addr:"0.0.0.0:"+*port,
+		ReadTimeout:10 * time.Second,
+		WriteTimeout:10 * time.Second,
+	}
+	err :=srv.ListenAndServe();if err !=nil{
 		log.Fatal("start error",err)
 	}
 }
